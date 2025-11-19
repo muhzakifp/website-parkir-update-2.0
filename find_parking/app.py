@@ -164,18 +164,28 @@ def slot_detail(vehicle_type, slot_id):
         return "Slot tidak ditemukan", 404
     slot = parking_slots[vehicle_type][slot_id]
     
-    # Hanya tampilkan jika accepted, atau driver pemilik slot pending
-    if slot['status'] == 'accepted':
-        pass
-    elif slot['status'] == 'pending' and session.get('driver_id') == slot.get('driver_id'):
-        pass
-    else:
-        return "Akses ditolak.", 403
+    if slot['status'] != 'accepted':
+        return "Slot tidak valid.", 400
 
-    return render_template('slot_detail.html',
+    # Dapatkan nomor HP driver dari session semua driver (simulasi)
+    # Di proyek nyata, ini disimpan di database
+    driver_phone = ""
+    if session.get('is_manager'):
+        # Cari nomor HP berdasarkan driver_id
+        for v_type, slots in parking_slots.items():
+            for s_id, s_data in slots.items():
+                if s_data.get('driver_id') == slot.get('driver_id') and s_data.get('phone'):
+                    driver_phone = s_data.get('phone', '')
+                    break
+            if driver_phone:
+                break
+
+    return render_template('popup_info.html',
                            vehicle_type=vehicle_type,
                            slot_id=slot_id,
-                           slot_data=slot)
+                           slot_data=slot,
+                           is_manager=session.get('is_manager', False),
+                           driver_phone=driver_phone)  # ✅ kirim nomor HP
 
 @app.route('/back_to_menu')
 def back_to_menu():
