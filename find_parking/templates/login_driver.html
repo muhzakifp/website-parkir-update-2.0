@@ -3,192 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Driver - FINDPARKING</title>
+
     <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #e0f7fa, #e3f2fd);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            display: flex;
             flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+
+            /* ANIMASI MASUK */
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
         }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
         .header {
             width: 100%;
             background-color: #00bcd4;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 2em;
-            font-weight: bold;
+            height: 15px;
         }
-        .page-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+
+        /* TOP SECTION */
         .top-section {
+            width: 100%;
+            max-width: 900px;
+            margin-top: 30px;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
+            align-items: center;
+            padding: 0 10px;
         }
-        .title-container {
-            text-align: left;
-        }
-        .title {
+
+        .title-container h1 {
             font-size: 3em;
             font-weight: bold;
             color: black;
-            margin: 0;
         }
-        .subtitle {
-            font-size: 1.5em;
+
+        .title-container h2 {
+            margin-top: 5px;
+            font-size: 1.4em;
             font-weight: bold;
             color: black;
-            margin: 5px 0 0 0;
         }
-        .logo-container {
-            position: relative;
-            width: 200px;
-            height: 100px;
+
+        /* Logo kanan */
+        .logo-container img {
+            width: 150px;
+            animation: floating 3s ease-in-out infinite, fadeInLogo 1.3s ease-out;
         }
-        .logo-img {
-            width: 100%;
-            height: auto;
+
+        @keyframes floating {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0); }
         }
+
+        @keyframes fadeInLogo {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* FORM BOX */
         .form-container {
+            width: 100%;
+            max-width: 600px;
             background: #00bcd4;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-top: 35px;
             text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            animation: fadeUp 1s ease-out;
         }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(25px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .form-title {
-            color: black;
+            font-size: 1.3em;
             font-weight: bold;
             margin-bottom: 20px;
-            font-size: 1.2em;
+            color: black;
         }
+
+        /* INPUT */
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: none;
             border-radius: 50px;
-            text-align: center;
+            border: none;
             margin: 10px 0;
-            box-sizing: border-box;
+            text-align: center;
             font-size: 1em;
-            background: white;
-            color: #999; /* Warna placeholder */
-            transition: color 0.3s;
+            color: #444;
+            transition: 0.2s;
         }
-        input[type="text"]:not(:placeholder-shown) {
-            color: black; /* Warna teks saat diisi */
-        }
+
         input[type="text"]:focus {
+            transform: scale(1.03);
             outline: none;
-            color: black;
         }
+
+        /* VEHICLE BUTTONS (tanpa glow) */
         .vehicle-btn {
             padding: 8px 20px;
             margin: 5px;
-            background: #cccccc;
-            color: black;
+            background: #ccc;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1em;
-            transition: background 0.3s;
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
+
+        .vehicle-btn:hover {
+            transform: scale(1.08);
+        }
+
         .vehicle-btn.selected {
             background: #4caf50;
+            color: white;
+            transform: scale(1.12);
         }
+
+        /* LOGIN BUTTON (tanpa glow) */
         .login-btn {
             width: 100%;
             padding: 12px;
-            color: white;
-            border: none;
             border-radius: 50px;
+            border: none;
+            font-size: 1.1em;
             font-weight: bold;
             margin-top: 15px;
             cursor: pointer;
-            font-size: 1.1em;
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
-        .login-btn.red {
-            background-color: red;
+
+        .login-btn:hover {
+            transform: scale(1.05);
         }
-        .login-btn.green {
-            background-color: green;
-        }
+
+        .red { background: red; color: white; }
+        .green { background: green; color: white; }
+
         .error {
             color: red;
             font-weight: bold;
-            margin-top: 10px;
-            font-size: 0.9em;
+            margin-bottom: 10px;
         }
+
+        /* FOOTER */
         .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
             width: 100%;
             background: #00bcd4;
-            text-align: left;
             padding: 10px 20px;
             display: flex;
             align-items: center;
+            position: fixed;
+            bottom: 0;
         }
+
         .parking-icon {
-            width: 80px;
+            width: 70px;
             margin-right: 10px;
         }
+
         .footer-text {
             font-size: 1.5em;
             font-weight: bold;
-            color: black;
         }
     </style>
 </head>
+
 <body>
+
     <div class="header"></div>
-    <div class="header"></div>
-    <div class="page-container">
-        <div class="top-section">
-            <div class="title-container">
-                <h1 class="title">FINDPARKING</h1>
-                <h2 class="subtitle">yahaha hayyuk</h2>
-            </div>
-            <div class="logo-container">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo-img">
-            </div>
+
+    <!-- Judul kiri + Logo kanan -->
+    <div class="top-section">
+        <div class="title-container">
+            <h1>FINDPARKING</h1>
+            <h2>yahaha hayyuk</h2>
         </div>
 
-        <div class="form-container">
-            <h2 class="form-title">YOUR VEHICLE BIODATA</h2>
-            {% if error %}
-                <p class="error">{{ error }}</p>
-            {% endif %}
-            <form method="POST">
-                <input type="text" name="name" placeholder="YOUR NAME" required>
-                <input type="text" name="phone" placeholder="NUMBER PHONE" required>
-                <input type="text" name="plate" placeholder="VEHICLE LICENSE PLATE" required>
-                <div style="margin: 15px 0;">
-                    <button type="button" class="vehicle-btn" id="car-btn" onclick="selectVehicle('car')">CAR</button>
-                    <button type="button" class="vehicle-btn" id="motor-btn" onclick="selectVehicle('motorcycle')">MOTORCYCLE</button>
-                    <input type="hidden" name="vehicle_type" value="" id="vehicle-type-input">
-                </div>
-                <button type="submit" class="login-btn red" id="login-button">LOGIN</button>
-            </form>
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}">
         </div>
     </div>
 
+    <!-- FORM LOGIN -->
+    <div class="form-container">
+        <h2 class="form-title">YOUR VEHICLE BIODATA</h2>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form method="POST">
+            <input type="text" name="name" placeholder="YOUR NAME" required>
+            <input type="text" name="phone" placeholder="NUMBER PHONE" required>
+            <input type="text" name="plate" placeholder="VEHICLE LICENSE PLATE" required>
+
+            <div style="margin: 15px 0;">
+                <button type="button" class="vehicle-btn" id="car-btn" onclick="selectVehicle('car')">CAR</button>
+                <button type="button" class="vehicle-btn" id="motor-btn" onclick="selectVehicle('motorcycle')">MOTORCYCLE</button>
+                <input type="hidden" name="vehicle_type" id="vehicle-type-input">
+            </div>
+
+            <button type="submit" class="login-btn red" id="login-button">LOGIN</button>
+        </form>
+    </div>
+
     <div class="footer">
-        <img src="{{ url_for('static', filename='parkir.png') }}" alt="Parking Icon" class="parking-icon">
+        <img src="{{ url_for('static', filename='parkir.png') }}" class="parking-icon">
         <span class="footer-text">DRIVER</span>
     </div>
 
@@ -202,24 +247,14 @@
             const carBtn = document.getElementById('car-btn');
             const motorBtn = document.getElementById('motor-btn');
 
-            if (!nameInput || !phoneInput || !plateInput || !vehicleInput || !loginButton || !carBtn || !motorBtn) {
-                console.error("Elemen form tidak ditemukan.");
-                return;
-            }
-
             function updateLoginButton() {
-                const name = nameInput.value.trim();
-                const phone = phoneInput.value.trim();
-                const plate = plateInput.value.trim();
-                const vehicle = vehicleInput.value.trim();
+                const valid = nameInput.value.trim() &&
+                              phoneInput.value.trim() &&
+                              plateInput.value.trim() &&
+                              vehicleInput.value.trim();
 
-                if (name && phone && plate && vehicle) {
-                    loginButton.classList.remove('red');
-                    loginButton.classList.add('green');
-                } else {
-                    loginButton.classList.remove('green');
-                    loginButton.classList.add('red');
-                }
+                loginButton.classList.toggle('red', !valid);
+                loginButton.classList.toggle('green', valid);
             }
 
             window.selectVehicle = function(type) {
@@ -227,22 +262,20 @@
                 motorBtn.classList.remove('selected');
 
                 vehicleInput.value = type;
-                if (type === 'car') {
-                    carBtn.classList.add('selected');
-                } else {
-                    motorBtn.classList.add('selected');
-                }
 
-                const event = new Event('input', { bubbles: true });
-                vehicleInput.dispatchEvent(event);
+                if (type === "car") carBtn.classList.add("selected");
+                else motorBtn.classList.add("selected");
+
+                updateLoginButton();
             };
 
-            [nameInput, phoneInput, plateInput, vehicleInput].forEach(input => {
+            [nameInput, phoneInput, plateInput].forEach(input => {
                 input.addEventListener('input', updateLoginButton);
             });
 
             updateLoginButton();
         });
     </script>
+
 </body>
 </html>

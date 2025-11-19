@@ -3,33 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Driver Menu - FINDPARKING</title>
+
     <style>
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #e0f7fa, #e3f2fd);
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            flex-direction: column;
+            padding-bottom: 120px;
         }
+
+        /* HEADER */
         .header {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
+            height: 75px;
             background-color: #00bcd4;
             color: white;
-            text-align: center;
-            padding: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 2em;
             font-weight: bold;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
         }
+
+        /* CONTAINER */
         .container {
-            text-align: center;
-            padding: 20px;
-            max-width: 800px;
+            max-width: 900px;
             width: 90%;
+            margin: 0 auto;
+            padding-top: 120px;
         }
+
         .top-section {
             display: flex;
             justify-content: space-between;
@@ -38,178 +48,191 @@
             flex-wrap: wrap;
             gap: 20px;
         }
+
         .title-container {
             text-align: left;
-            flex: 1;
-            min-width: 250px;
+            min-width: 260px;
         }
+
         .title {
-            font-size: 3em;
+            font-size: 2.6em;
             font-weight: bold;
-            color: black;
             margin: 0;
+            color: #000;
         }
+
         .subtitle {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
-            color: black;
-            margin: 5px 0 0 0;
+            margin-top: 5px;
+            color: #000;
         }
+
         .profile-container {
             width: 150px;
             text-align: center;
-            flex-shrink: 0;
         }
+
         .user-icon {
             width: 60px;
             height: 60px;
             border: 2px solid black;
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             margin: 0 auto 10px;
-        }
-        .user-icon::before {
-            content: "👤";
             font-size: 2em;
         }
+
         .profile-info {
             background: white;
             border: 2px solid black;
             border-radius: 10px;
-            padding: 5px;
+            padding: 6px;
             font-size: 0.9em;
-            text-align: center;
         }
 
-        /* Tombol dengan gambar besar di kiri */
+        /* BUTTONS */
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 25px;
-            margin: 20px 0;
         }
+
         .btn {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-            padding: 20px;
-            background-color: #00bcd4;
+            padding: 18px;
+            background: #00bcd4;
             color: white;
-            text-decoration: none;
-            border: none;
             border-radius: 20px;
             font-size: 1.6em;
+            text-decoration: none;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            transition: 0.3s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .btn:hover:not(.disabled) {
-            background-color: #0097a7;
-            transform: translateY(-2px);
-        }
-        .btn .vehicle-img {
-            width: 130px;
-            height: auto;
-            margin-right: 25px;
-            filter: brightness(1.1);
-            transition: transform 0.3s ease;
-        }
-        .btn:hover:not(.disabled) .vehicle-img {
-            transform: scale(1.05);
-        }
-        .btn.disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-            opacity: 0.8;
-        }
-        .btn.disabled .vehicle-img {
-            filter: grayscale(1) brightness(0.7);
+            cursor: pointer;
         }
 
-        /* Footer */
+        .btn:hover:not(.disabled) {
+            background: #0097a7;
+            transform: translateY(-3px);
+        }
+
+        /* DISABLED BUTTON STYLE */
+        .btn.disabled {
+            background: #c8c8c8 !important;
+            pointer-events: none;
+            opacity: 0.85;
+            cursor: not-allowed !important;
+        }
+
+        /* Cursor tetap not-allowed untuk anak elemennya */
+        .btn.disabled *,
+        .btn.disabled .vehicle-img,
+        .btn.disabled span {
+            cursor: not-allowed !important;
+        }
+
+        /* Gambar jadi abu-abu */
+        .btn.disabled .vehicle-img {
+            filter: grayscale(100%);
+            opacity: 0.45;
+        }
+
+        .vehicle-img {
+            width: 120px;
+            margin-right: 25px;
+            transition: 0.3s;
+        }
+
+        /* FOOTER */
         .footer {
             position: fixed;
             bottom: 0;
+            left: 0;
             width: 100%;
-            background-color: #00bcd4;
-            padding: 10px 20px;
+            background: #00bcd4;
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.15);
         }
+
         .footer-left {
             display: flex;
             align-items: center;
+            gap: 12px;
         }
+
         .parking-icon {
-            width: 70px;
-            margin-right: 12px;
+            width: 65px;
         }
+
         .footer-text {
             font-size: 1.5em;
             font-weight: bold;
-            color: black;
+            white-space: nowrap;
         }
+
         .footer-right {
             display: flex;
             align-items: center;
             gap: 12px;
         }
+
         .plat-nomor {
-            padding: 6px 18px;
+            background: white;
             border: 2px solid black;
             border-radius: 20px;
+            padding: 8px 20px;
             font-weight: bold;
-            background: white;
-        }
-        .exit-btn {
-            padding: 12px 30px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.3s;
-        }
-        .exit-btn:hover {
-            background-color: darkred;
         }
 
-        /* Notifikasi */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #ffeb3b;
-            color: black;
-            padding: 12px 24px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            display: none;
+        .exit-btn {
+            padding: 12px 28px;
+            background: red;
+            color: white;
+            border-radius: 50px;
+            font-size: 1.2em;
+            text-decoration: none;
             font-weight: bold;
         }
+
+        .exit-btn:hover {
+            background: darkred;
+        }
     </style>
+
+    <script>
+        function checkVehicle(type) {
+            const sessionType = "{{ session.vehicle_type }}";
+
+            if (type !== sessionType) {
+                alert("Kendaraan yang dipilih tidak sesuai dengan saat login!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
+
 <body>
+
     <div class="header"></div>
+
     <div class="container">
+
         <div class="top-section">
             <div class="title-container">
                 <h1 class="title">FIND PARKING</h1>
-                <h2 class="subtitle">Gedung yahaha hayyuk</h2>
+                <h2 class="subtitle">yahaha hayyuk</h2>
             </div>
+
             <div class="profile-container">
-                <div class="user-icon"></div>
+                <div class="user-icon">👤</div>
                 <div class="profile-info">
                     <div>NAMA: {{ user_name }}</div>
                     <div>ID DRIVER: {{ driver_id }}</div>
@@ -217,55 +240,43 @@
             </div>
         </div>
 
+        <!-- VEHICLE BUTTONS -->
         <div class="button-container">
-            <!-- Tombol CAR -->
-            <a href="/parking/car" 
-               class="btn {% if session.vehicle_type != 'car' %}disabled{% endif %}" 
+            
+            <!-- CAR BUTTON -->
+            <a href="/parking/car"
+               class="btn {% if session.vehicle_type != 'car' %}disabled{% endif %}"
                onclick="return checkVehicle('car')">
-                <img src="{{ url_for('static', filename='mobil.png') }}" alt="Car" class="vehicle-img">
+
+                <img src="{{ url_for('static', filename='mobil.png') }}" class="vehicle-img">
                 <span>CAR</span>
             </a>
 
-            <!-- Tombol MOTORCYCLE -->
-            <a href="/parking/motorcycle" 
-               class="btn {% if session.vehicle_type != 'motorcycle' %}disabled{% endif %}" 
+            <!-- MOTORCYCLE BUTTON -->
+            <a href="/parking/motorcycle"
+               class="btn {% if session.vehicle_type != 'motorcycle' %}disabled{% endif %}"
                onclick="return checkVehicle('motorcycle')">
-                <img src="{{ url_for('static', filename='motor.png') }}" alt="Motorcycle" class="vehicle-img">
+
+                <img src="{{ url_for('static', filename='motor.png') }}" class="vehicle-img">
                 <span>MOTORCYCLE</span>
             </a>
+
         </div>
+
     </div>
 
+    <!-- FOOTER -->
     <div class="footer">
         <div class="footer-left">
-            <img src="{{ url_for('static', filename='driver.png')}}" alt="Parking Icon" class="parking-icon">
+            <img src="{{ url_for('static', filename='driver.png') }}" class="parking-icon">
             <span class="footer-text">DRIVER</span>
         </div>
+
         <div class="footer-right">
             <div class="plat-nomor">PLAT NOMOR: {{ plate }}</div>
             <a href="/exit" class="exit-btn">EXIT</a>
         </div>
     </div>
 
-    <div class="notification" id="notification"></div>
-
-    <script>
-        function checkVehicle(selectedType) {
-            const currentType = "{{ session.vehicle_type }}";
-
-            if (currentType !== selectedType) {
-                const notification = document.getElementById('notification');
-                notification.textContent = `You have chosen the ${currentType.toUpperCase()} option. You cannot access ${selectedType.toUpperCase()} parking.`;
-                notification.style.display = 'block';
-                
-                setTimeout(() => {
-                    notification.style.display = 'none';
-                }, 3500);
-
-                return false;
-            }
-            return true;
-        }
-    </script>
 </body>
 </html>

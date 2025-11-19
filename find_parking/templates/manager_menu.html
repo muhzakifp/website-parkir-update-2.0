@@ -10,177 +10,180 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            flex-direction: column;
-            position: relative;
         }
+
+        /* HEADER */
         .header {
             width: 100%;
             background-color: #00bcd4;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 2em;
-            font-weight: bold;
+            height: 60px;
         }
+
+        /* CONTAINER UTAMA */
         .container {
-            text-align: center;
+            width: 100%;
+            max-width: 1000px;
             padding: 20px;
-            max-width: 800px;
-            width: 90%;
+            margin-top: 20px;
         }
+
+        /* TITLE + PROFILE */
         .top-section {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
+            align-items: center;
+            margin-bottom: 40px;
         }
+
         .title-container {
-            text-align: left;
             flex: 1;
         }
+
         .title {
             font-size: 3em;
             font-weight: bold;
-            color: black;
             margin: 0;
-        }
-        .subtitle {
-            font-size: 1.5em;
-            font-weight: bold;
             color: black;
-            margin: 5px 0 0 0;
         }
 
-        /* Profil Manager */
+        .subtitle {
+            margin: 5px 0 0 0;
+            font-size: 1.4em;
+            color: black;
+            font-weight: bold;
+        }
+
+        /* PROFILE */
         .profile-container {
-            width: 150px;
-            text-align: center;
+            width: 160px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
+
         .user-icon {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border: 2px solid black;
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            margin: 0 auto 10px;
-        }
-        .user-icon::before {
-            content: "👔";
-            font-size: 2em;
-        }
-        .profile-info {
-            background: white;
-            border: 2px solid black;
-            border-radius: 10px;
-            padding: 5px;
-            font-size: 0.9em;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
+            justify-content: center;
+            font-size: 2.3em;
+            margin-bottom: 10px;
         }
 
-        /* Tombol CAR & MOTORCYCLE (desain mirip mockup) */
+        .user-icon::before {
+            content: "👔";
+        }
+
+        .profile-info {
+            width: 100%;
+            background: white;
+            border: 2px solid black;
+            border-radius: 12px;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* BUTTON SECTION */
         .button-container {
             display: flex;
             flex-direction: column;
-            gap: 30px;
-            margin: 40px 0;
+            gap: 35px;
+            margin: 40px 0 100px 0;
         }
+
         .btn {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            width: 100%;
-            padding: 25px 30px;
-            background-color: #00bcd4;
+            background: #00bcd4;
             color: white;
-            text-decoration: none;
-            border: none;
+            padding: 25px 30px;
             border-radius: 50px;
             font-size: 2em;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn:hover {
-            background-color: #0097a7;
-            transform: translateY(-2px);
-        }
-        .btn img {
-            width: 180px;
-            height: auto;
-            margin-right: 20px;
-            filter: brightness(1.1);
-            z-index: 1;
-        }
-        .btn span {
-            position: relative;
-            z-index: 2;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: 0.3s;
         }
 
-        /* Footer */
+        .btn:hover {
+            background-color: #0097a7;
+            transform: translateY(-3px);
+        }
+
+        .btn img {
+            width: 170px;
+            margin-right: 25px;
+        }
+
+        /* FOOTER */
         .footer {
+            width: 100%;
+            background: #00bcd4;
+            padding: 15px 25px;
             position: fixed;
             bottom: 0;
-            width: 100%;
-            background-color: #00bcd4;
-            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.15);
         }
+
         .footer-left {
             display: flex;
             align-items: center;
         }
+
         .parking-icon {
-            width: 80px;
+            width: 75px;
             margin-right: 15px;
         }
+
         .footer-text {
-            font-size: 1.8em;
+            font-size: 1.7em;
             font-weight: bold;
             color: black;
         }
+
         .exit-btn {
-            padding: 15px 40px;
-            background-color: red;
+            background: red;
             color: white;
-            border: none;
+            padding: 15px 40px;
             border-radius: 50px;
             font-size: 1.5em;
             font-weight: bold;
-            cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
+
         .exit-btn:hover {
-            background-color: darkred;
+            background: darkred;
         }
     </style>
 </head>
 <body>
+
     <div class="header"></div>
+
     <div class="container">
+
         <div class="top-section">
+
             <div class="title-container">
                 <h1 class="title">FIND PARKING</h1>
                 <h2 class="subtitle">yahaha hayyuk</h2>
             </div>
+
             <div class="profile-container">
                 <div class="user-icon"></div>
                 <div class="profile-info">
@@ -188,29 +191,33 @@
                     <div>ID ATD: {{ manager_id }}</div>
                 </div>
             </div>
+
         </div>
 
         <div class="button-container">
-            <!-- Tombol CAR -->
+
             <a href="/parking/car" class="btn">
                 <img src="{{ url_for('static', filename='mobil.png') }}" alt="Car">
                 <span>CAR</span>
             </a>
 
-            <!-- Tombol MOTORCYCLE -->
             <a href="/parking/motorcycle" class="btn">
                 <img src="{{ url_for('static', filename='motor.png') }}" alt="Motorcycle">
                 <span>MOTORCYCLE</span>
             </a>
+
         </div>
+
     </div>
 
     <div class="footer">
         <div class="footer-left">
-            <img src="{{ url_for('static', filename='parkir.png') }}" alt="Parking Icon" class="parking-icon">
+            <img src="{{ url_for('static', filename='parkir.png') }}" class="parking-icon">
             <span class="footer-text">PARKING ATTENDANT</span>
         </div>
+
         <a href="/exit" class="exit-btn">EXIT</a>
     </div>
+
 </body>
 </html>

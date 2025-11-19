@@ -3,171 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Manager - FINDPARKING</title>
+
     <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* BODY ANIMATION */
         body {
             font-family: Arial, sans-serif;
             background: linear-gradient(to right, #e0f7fa, #e3f2fd);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            flex-direction: column;
+
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
         }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER */
         .header {
             width: 100%;
+            height: 45px;
             background-color: #00bcd4;
-            color: white;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 2em;
-            font-weight: bold;
         }
+
+        /* CONTENT WRAPPER AGAR KONTEN DI TENGAH */
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 30px;
+            padding-bottom: 80px;
+        }
+
+        /* CONTAINER */
         .page-container {
-            position: relative;
             width: 100%;
             max-width: 800px;
             padding: 20px;
-            box-sizing: border-box;
         }
+
         .top-section {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 30px;
         }
-        .title-container {
-            text-align: left;
-        }
+
         .title {
             font-size: 3em;
             font-weight: bold;
             color: black;
-            margin: 0;
         }
+
         .subtitle {
             font-size: 1.5em;
             font-weight: bold;
+            margin-top: 5px;
             color: black;
-            margin: 5px 0 0 0;
         }
-        .logo-container {
-            position: relative;
-            width: 200px;
-            height: 100px;
+
+        /* LOGO FLOATING ANIMATION */
+        .logo-container img {
+            width: 180px;
+            animation: floating 3s ease-in-out infinite, fadeInLogo 1s ease-out;
         }
-        .logo-img {
-            width: 100%;
-            height: auto;
+
+        @keyframes floating {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
         }
+
+        @keyframes fadeInLogo {
+            0% { opacity: 0; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* FORM */
         .form-container {
             background: #00bcd4;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+
+            animation: fadeUp 0.9s ease-out;
         }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
         .form-title {
-            color: black;
+            font-size: 1.2em;
             font-weight: bold;
             margin-bottom: 20px;
-            font-size: 1.2em;
+            color: black;
         }
+
+        /* INPUT */
         input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: none;
             border-radius: 50px;
-            text-align: center;
+            border: none;
             margin: 10px 0;
-            box-sizing: border-box;
             font-size: 1em;
+            text-align: center;
             background: white;
             color: #999;
             transition: color 0.3s;
         }
-        input[type="text"]:not(:placeholder-shown) {
-            color: black;
-        }
+
+        input[type="text"]:not(:placeholder-shown),
         input[type="text"]:focus {
-            outline: none;
             color: black;
+            outline: none;
         }
+
+        /* LOGIN BUTTON */
         .login-btn {
             width: 100%;
             padding: 12px;
-            color: white;
-            border: none;
             border-radius: 50px;
-            font-weight: bold;
-            margin-top: 15px;
-            cursor: pointer;
+            border: none;
             font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.25s ease, transform 0.2s ease;
         }
-        .login-btn.red {
-            background-color: red;
+
+        .login-btn:hover {
+            transform: scale(1.05);
         }
-        .login-btn.green {
-            background-color: green;
-        }
+
+        .red { background: red; color: white; }
+        .green { background: green; color: white; }
+
         .error {
+            margin-top: 10px;
             color: red;
             font-weight: bold;
-            margin-top: 10px;
-            font-size: 0.9em;
         }
+
+        /* FOOTER */
         .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
             width: 100%;
             background: #00bcd4;
-            text-align: left;
-            padding: 10px 20px;
+            padding: 3px 10px;
             display: flex;
             align-items: center;
+            position: fixed;
+            bottom: 0;
         }
+
         .parking-icon {
             width: 80px;
             margin-right: 10px;
         }
+
         .footer-text {
             font-size: 1.5em;
             font-weight: bold;
-            color: black;
         }
+
     </style>
 </head>
-<body>
-    <div class="header"></div>
-    <div class="header"></div>  
-    <div class="page-container">
-        <div class="top-section">
-            <div class="title-container">
-                <h1 class="title">FINDPARKING</h1>
-                <h2 class="subtitle">yahaha hayyuk</h2>
-            </div>
-            <div class="logo-container">
-                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo-img">
-            </div>
-        </div>
 
-        <div class="form-container">
-            <h2 class="form-title">BIODATA ATTENDANT</h2>
-            {% if error %}
-                <p class="error">{{ error }}</p>
-            {% endif %}
-            <form method="POST">
-                <input type="text" name="name" placeholder="YOUR NAME" required>
-                <input type="text" name="phone" placeholder="NUMBER PHONE" required>
-                <button type="submit" class="login-btn red" id="login-button">LOGIN</button>
-            </form>
+<body>
+
+    <div class="header"></div>
+
+    <div class="content-wrapper">
+
+        <div class="page-container">
+
+            <div class="top-section">
+                <div>
+                    <h1 class="title">FINDPARKING</h1>
+                    <h2 class="subtitle">yahaha hayyuk</h2>
+                </div>
+
+                <div class="logo-container">
+                    <img src="{{ url_for('static', filename='logo.png') }}">
+                </div>
+            </div>
+
+            <div class="form-container">
+                <h2 class="form-title">BIODATA ATTENDANT</h2>
+
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <form method="POST">
+                    <input type="text" name="name" placeholder="YOUR NAME" required>
+                    <input type="text" name="phone" placeholder="NUMBER PHONE" required>
+
+                    <button type="submit" class="login-btn red" id="login-button">LOGIN</button>
+                </form>
+            </div>
+
         </div>
     </div>
 
     <div class="footer">
-        <img src="{{ url_for('static', filename='parkir.png')}}" alt="Parking Icon" class="parking-icon">
+        <img src="{{ url_for('static', filename='parkir.png')}}" class="parking-icon">
         <span class="footer-text">PARKING ATTENDANT</span>
     </div>
 
@@ -177,30 +228,24 @@
             const phoneInput = document.querySelector('input[name="phone"]');
             const loginButton = document.getElementById('login-button');
 
-            if (!nameInput || !phoneInput || !loginButton) {
-                console.error("Elemen form tidak ditemukan.");
-                return;
-            }
-
-            function updateLoginButton() {
+            function updateLogin() {
                 const name = nameInput.value.trim();
                 const phone = phoneInput.value.trim();
 
                 if (name && phone) {
-                    loginButton.classList.remove('red');
-                    loginButton.classList.add('green');
+                    loginButton.classList.remove("red");
+                    loginButton.classList.add("green");
                 } else {
-                    loginButton.classList.remove('green');
-                    loginButton.classList.add('red');
+                    loginButton.classList.remove("green");
+                    loginButton.classList.add("red");
                 }
             }
 
-            [nameInput, phoneInput].forEach(input => {
-                input.addEventListener('input', updateLoginButton);
-            });
-
-            updateLoginButton();
+            nameInput.addEventListener("input", updateLogin);
+            phoneInput.addEventListener("input", updateLogin);
+            updateLogin();
         });
     </script>
+
 </body>
 </html>
