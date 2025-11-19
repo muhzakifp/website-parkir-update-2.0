@@ -1,251 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login Manager - FINDPARKING</title>
+<meta charset="UTF-8">
+<title>Login Manager - FINDPARKING</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; }
 
-    <style>
-        /* RESET */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        background: linear-gradient(to right, #f0f4f8, #e3f2fd);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-bottom: 60px; /* space for footer */
+        opacity: 0;
+        animation: fadeIn 0.8s ease-out forwards;
+    }
 
-        /* BODY ANIMATION */
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #e0f7fa, #e3f2fd);
-            min-height: 100vh;
+    @keyframes fadeIn {
+        0% { opacity: 0; transform: translateY(20px);}
+        100% { opacity:1; transform: translateY(0);}
+    }
 
-            opacity: 0;
-            animation: fadeIn 0.8s ease-out forwards;
-        }
+    /* Header */
+    .header { width:100%; background:#00796b; height:20px; }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+    /* Top Section */
+    .top-section {
+        width: 100%;
+        max-width: 900px;
+        margin-top: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
 
-        /* HEADER */
-        .header {
-            width: 100%;
-            height: 45px;
-            background-color: #00bcd4;
-        }
+    .title-container h1 {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #00796b;
+    }
 
-        /* CONTENT WRAPPER AGAR KONTEN DI TENGAH */
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 30px;
-            padding-bottom: 80px;
-        }
+    .title-container h2 {
+        margin-top: 5px;
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: #555;
+    }
 
-        /* CONTAINER */
-        .page-container {
-            width: 100%;
-            max-width: 800px;
-            padding: 20px;
-        }
+    .logo-container img {
+        width: 120px;
+        animation: floating 3s ease-in-out infinite, fadeInLogo 1s ease-out;
+    }
 
-        .top-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-        }
+    @keyframes floating {
+        0%,100% { transform: translateY(0);}
+        50% { transform: translateY(-10px);}
+    }
 
-        .title {
-            font-size: 3em;
-            font-weight: bold;
-            color: black;
-        }
+    @keyframes fadeInLogo {
+        0% { opacity:0; transform: scale(0.8);}
+        100% { opacity:1; transform: scale(1);}
+    }
 
-        .subtitle {
-            font-size: 1.5em;
-            font-weight: bold;
-            margin-top: 5px;
-            color: black;
-        }
+    /* Form */
+    .form-container {
+        width: 100%;
+        max-width: 500px;
+        background: rgba(255,255,255,0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        margin-top: 40px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        animation: fadeUp 1s ease-out;
+    }
 
-        /* LOGO FLOATING ANIMATION */
-        .logo-container img {
-            width: 180px;
-            animation: floating 3s ease-in-out infinite, fadeInLogo 1s ease-out;
-        }
+    @keyframes fadeUp {
+        0% { opacity:0; transform: translateY(25px);}
+        100% { opacity:1; transform: translateY(0);}
+    }
 
-        @keyframes floating {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
-        }
+    .form-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: #00796b;
+    }
 
-        @keyframes fadeInLogo {
-            0% { opacity: 0; transform: scale(0.85); }
-            100% { opacity: 1; transform: scale(1); }
-        }
+    input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border-radius: 50px;
+        border: 1px solid #ccc;
+        margin: 10px 0;
+        text-align: center;
+        font-size: 1em;
+        color: #444;
+        transition: 0.2s;
+    }
 
-        /* FORM */
-        .form-container {
-            background: #00bcd4;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    input[type="text"]:focus {
+        transform: scale(1.03);
+        outline: none;
+        border-color: #00796b;
+        box-shadow: 0 4px 15px rgba(0,121,107,0.2);
+    }
 
-            animation: fadeUp 0.9s ease-out;
-        }
+    .login-btn {
+        width: 100%;
+        padding: 12px;
+        border-radius: 50px;
+        border: none;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-top: 15px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
 
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+    .login-btn.red { background:#d32f2f; color:white; }
+    .login-btn.green { background:#00796b; color:white; }
+    .login-btn:hover { transform: scale(1.05); }
 
-        .form-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: black;
-        }
+    .error { color:red; font-weight:600; margin-bottom:10px; }
 
-        /* INPUT */
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border-radius: 50px;
-            border: none;
-            margin: 10px 0;
-            font-size: 1em;
-            text-align: center;
-            background: white;
-            color: #999;
-            transition: color 0.3s;
-        }
+    /* Footer */
+    .footer {
+        width: 100%;
+        background: #00796b;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap:10px;
+        position: fixed;
+        bottom: 0;
+    }
 
-        input[type="text"]:not(:placeholder-shown),
-        input[type="text"]:focus {
-            color: black;
-            outline: none;
-        }
+    .parking-icon { width:50px; }
+    .footer-text { font-weight:600; color:white; font-size:1.2em; }
 
-        /* LOGIN BUTTON */
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 50px;
-            border: none;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: background 0.25s ease, transform 0.2s ease;
-        }
-
-        .login-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .red { background: red; color: white; }
-        .green { background: green; color: white; }
-
-        .error {
-            margin-top: 10px;
-            color: red;
-            font-weight: bold;
-        }
-
-        /* FOOTER */
-        .footer {
-            width: 100%;
-            background: #00bcd4;
-            padding: 3px 10px;
-            display: flex;
-            align-items: center;
-            position: fixed;
-            bottom: 0;
-        }
-
-        .parking-icon {
-            width: 80px;
-            margin-right: 10px;
-        }
-
-        .footer-text {
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-    </style>
+</style>
 </head>
-
 <body>
 
-    <div class="header"></div>
+<div class="header"></div>
 
-    <div class="content-wrapper">
-
-        <div class="page-container">
-
-            <div class="top-section">
-                <div>
-                    <h1 class="title">FINDPARKING</h1>
-                    <h2 class="subtitle">yahaha hayyuk</h2>
-                </div>
-
-                <div class="logo-container">
-                    <img src="{{ url_for('static', filename='logo.png') }}">
-                </div>
-            </div>
-
-            <div class="form-container">
-                <h2 class="form-title">BIODATA ATTENDANT</h2>
-
-                {% if error %}
-                    <p class="error">{{ error }}</p>
-                {% endif %}
-
-                <form method="POST">
-                    <input type="text" name="name" placeholder="YOUR NAME" required>
-                    <input type="text" name="phone" placeholder="NUMBER PHONE" required>
-
-                    <button type="submit" class="login-btn red" id="login-button">LOGIN</button>
-                </form>
-            </div>
-
-        </div>
+<div class="top-section">
+    <div class="title-container">
+        <h1>FINDPARKING</h1>
+        <h2>Manager Login</h2>
     </div>
-
-    <div class="footer">
-        <img src="{{ url_for('static', filename='parkir.png')}}" class="parking-icon">
-        <span class="footer-text">PARKING ATTENDANT</span>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='logo.png') }}">
     </div>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const nameInput = document.querySelector('input[name="name"]');
-            const phoneInput = document.querySelector('input[name="phone"]');
-            const loginButton = document.getElementById('login-button');
+<div class="form-container">
+    <h2 class="form-title">Attendant Biodata</h2>
 
-            function updateLogin() {
-                const name = nameInput.value.trim();
-                const phone = phoneInput.value.trim();
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
 
-                if (name && phone) {
-                    loginButton.classList.remove("red");
-                    loginButton.classList.add("green");
-                } else {
-                    loginButton.classList.remove("green");
-                    loginButton.classList.add("red");
-                }
-            }
+    <form method="POST">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="text" name="phone" placeholder="Phone Number" required>
 
-            nameInput.addEventListener("input", updateLogin);
-            phoneInput.addEventListener("input", updateLogin);
-            updateLogin();
-        });
-    </script>
+        <button type="submit" class="login-btn red" id="login-button">Login</button>
+    </form>
+</div>
+
+<div class="footer">
+    <img src="{{ url_for('static', filename='parkir.png')}}" class="parking-icon">
+    <span class="footer-text">PARKING ATTENDANT</span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.querySelector('input[name="name"]');
+    const phoneInput = document.querySelector('input[name="phone"]');
+    const loginButton = document.getElementById('login-button');
+
+    function updateLogin() {
+        const valid = nameInput.value.trim() && phoneInput.value.trim();
+        loginButton.classList.toggle('red', !valid);
+        loginButton.classList.toggle('green', valid);
+    }
+
+    nameInput.addEventListener('input', updateLogin);
+    phoneInput.addEventListener('input', updateLogin);
+    updateLogin();
+});
+</script>
 
 </body>
 </html>

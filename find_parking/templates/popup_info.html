@@ -1,59 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>INFO</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background: rgba(0,0,0,0.7); 
-            margin: 0; 
-            padding: 0; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-        }
-        .popup { 
-            background: white; 
-            border: 2px solid black; 
-            border-radius: 10px; 
-            padding: 30px; 
-            text-align: center; 
-            max-width: 400px; 
-            width: 90%; 
-        }
-        .popup h1 { 
-            font-size: 2.5em; 
-            font-weight: bold; 
-            margin-bottom: 20px; 
-        }
-        .info-list { 
-            text-align: left; 
-            font-size: 1.2em; 
-            line-height: 1.6; 
-            margin-bottom: 30px; 
-        }
-        .info-item { 
-            margin: 5px 0; 
-        }
-        .info-label { 
-            font-weight: bold; 
-        }
-        .exit-btn { 
-            width: 20%; 
-            padding: 15px; 
-            background: red; 
-            color: white; 
-            border: none; 
-            border-radius: 55px; 
-            font-size: 1.5em; 
-            font-weight: bold; 
-            cursor: pointer; 
-            text-decoration: none;
-            display: inline-block;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>INFO</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* POPUP CARD */
+.popup {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 35px 25px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    animation: popUp 0.4s ease-out;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* TITLE */
+.popup h1 {
+    font-size: 2.2em;
+    font-weight: 700;
+    color: #00796b;
+    margin-bottom: 20px;
+}
+
+/* INFO LIST */
+.info-list {
+    text-align: left;
+    font-size: 1.1em;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.info-item {
+    margin: 6px 0;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #004d40;
+}
+
+/* EXIT BUTTON */
+.exit-btn {
+    display: inline-block;
+    width: 45%;
+    padding: 12px 0;
+    background: #d32f2f;
+    color: white;
+    border-radius: 50px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.exit-btn:hover {
+    background: #b71c1c;
+}
+</style>
 </head>
 <body>
     <div class="popup">
@@ -66,7 +88,6 @@
             <div class="info-item"><span class="info-label">ID DRIVER :</span> {{ slot_data.driver_id }}</div>
             <div class="info-item"><span class="info-label">ID ATTENDANT :</span> {{ slot_data.manager_id or 'N/A' }}</div>
             
-            <!-- ✅ Tampilkan nomor HP hanya untuk manager -->
             {% if is_manager and driver_phone %}
                 <div class="info-item"><span class="info-label">NO HP DRIVER :</span> {{ driver_phone }}</div>
             {% endif %}
