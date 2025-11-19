@@ -45,7 +45,7 @@ body {
     border-radius:50px;
     padding:5px 15px;
     flex-grow:1;
-    max-width:350px;
+    max-width:250px;
     box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 .search-bar input {
@@ -57,6 +57,17 @@ body {
     color:#444;
 }
 .search-bar .icon { font-size:1.2em; color:#00796b; margin-right:5px; }
+.filter-bar {
+    margin-left:10px;
+}
+#slot-filter {
+    padding:5px 10px;
+    border-radius:20px;
+    border:1px solid #ccc;
+    font-size:0.95em;
+    outline:none;
+    cursor:pointer;
+}
 .back-btn, .edit-btn {
     padding:10px 20px;
     border-radius:50px;
@@ -160,9 +171,17 @@ body {
         <h1>CAR PARKING</h1>
         <h2>FIND PARKING</h2>
     </div>
-    <div class="search-bar">
-        <span class="icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Search Slot Parking" onkeyup="filterSlots()">
+    <div style="display:flex; align-items:center; gap:10px; flex-grow:1; max-width:400px;">
+        <div class="search-bar">
+            <span class="icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Search Slot Parking" onkeyup="filterSlots()">
+        </div>
+        <select id="slot-filter" onchange="filterSlots()" style="padding:8px 12px; border-radius:50px; border:1px solid #ccc; outline:none; font-size:0.95em;">
+            <option value="all">All Status</option>
+            <option value="empty">Empty</option>
+            <option value="pending">Pending</option>
+            <option value="accepted">Used</option>
+        </select>
     </div>
     <div>
         <button class="back-btn" onclick="location.href='/back_to_menu'">BACK</button>
@@ -213,14 +232,22 @@ document.querySelectorAll('.slot').forEach(slot => {
     });
 });
 
-// Search filter
+// Search + status filter
 function filterSlots() {
-    const input = document.getElementById('search-input');
-    const filter = input.value.toLowerCase().trim();
+    const input = document.getElementById('search-input').value.toLowerCase().trim();
+    const statusFilter = document.getElementById('slot-filter').value;
+
     document.querySelectorAll('.slot').forEach(slot => {
         const name = slot.querySelector('.slot-header').textContent.toLowerCase();
         const plate = slot.querySelector('.slot-plate')?.textContent.toLowerCase() || '';
-        slot.style.display = (name.includes(filter) || plate.includes(filter)) ? 'block' : 'none';
+        const status = slot.classList.contains('accepted') ? 'accepted' :
+                       slot.classList.contains('pending') ? 'pending' :
+                       'empty';
+
+        const matchesSearch = name.includes(input) || plate.includes(input);
+        const matchesStatus = statusFilter === 'all' || status === statusFilter;
+
+        slot.style.display = (matchesSearch && matchesStatus) ? 'block' : 'none';
     });
 }
 </script>
