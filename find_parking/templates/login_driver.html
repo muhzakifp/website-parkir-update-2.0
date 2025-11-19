@@ -15,14 +15,14 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        padding-bottom: 60px; /* space for footer */
+        padding-bottom: 60px;
         opacity: 0;
-        animation: fadeIn 0.8s ease-out forwards;
+        animation: fadeInBody 1s ease-in-out forwards;
     }
 
-    @keyframes fadeIn {
-        0% { opacity: 0; transform: translateY(20px);}
-        100% { opacity:1; transform: translateY(0);}
+    @keyframes fadeInBody {
+        0% { opacity:0; transform: translateY(10px); }
+        100% { opacity:1; transform: translateY(0); }
     }
 
     /* Header */
@@ -56,18 +56,15 @@
         color: #555;
     }
 
+    /* Logo fade-in */
     .logo-container img {
         width: 120px;
-        animation: floating 3s ease-in-out infinite, fadeInLogo 1s ease-out;
-    }
-
-    @keyframes floating {
-        0%,100% { transform: translateY(0);}
-        50% { transform: translateY(-10px);}
+        opacity:0;
+        animation: fadeInLogo 1s ease-out forwards;
     }
 
     @keyframes fadeInLogo {
-        0% { opacity:0; transform: scale(0.8);}
+        0% { opacity:0; transform: scale(0.95);}
         100% { opacity:1; transform: scale(1);}
     }
 
@@ -81,12 +78,13 @@
         padding: 30px;
         margin-top: 40px;
         text-align: center;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        animation: fadeUp 1s ease-out;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        opacity:0;
+        animation: fadeUpForm 1s ease-out forwards;
     }
 
-    @keyframes fadeUp {
-        0% { opacity:0; transform: translateY(25px);}
+    @keyframes fadeUpForm {
+        0% { opacity:0; transform: translateY(15px);}
         100% { opacity:1; transform: translateY(0);}
     }
 
@@ -106,14 +104,14 @@
         text-align: center;
         font-size: 1em;
         color: #444;
-        transition: 0.2s;
+        transition: 0.3s ease;
     }
 
     input[type="text"]:focus {
-        transform: scale(1.03);
+        transform: scale(1.02);
         outline: none;
         border-color: #00796b;
-        box-shadow: 0 4px 15px rgba(0,121,107,0.2);
+        box-shadow: 0 4px 12px rgba(0,121,107,0.15);
     }
 
     .vehicle-btn {
@@ -124,11 +122,20 @@
         border-radius: 50px;
         cursor: pointer;
         font-weight: 600;
-        transition: transform 0.2s ease, background-color 0.2s ease;
+        transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .vehicle-btn:hover { transform: scale(1.08); }
-    .vehicle-btn.selected { background: #00796b; color: white; transform: scale(1.12); }
+    .vehicle-btn:hover { 
+        transform: scale(1.03); 
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
+
+    .vehicle-btn.selected { 
+        background: #00796b; 
+        color: white; 
+        transform: scale(1.05); 
+        box-shadow: 0 6px 15px rgba(0,121,107,0.2);
+    }
 
     .login-btn {
         width: 100%;
@@ -139,13 +146,16 @@
         font-weight: bold;
         margin-top: 15px;
         cursor: pointer;
-        transition: transform 0.2s ease, background-color 0.2s ease;
+        transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .login-btn.red { background:#d32f2f; color:white; }
     .login-btn.green { background:#00796b; color:white; }
 
-    .login-btn:hover { transform: scale(1.05); }
+    .login-btn:hover { 
+        transform: scale(1.03); 
+        box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    }
 
     .error { color:red; font-weight:600; margin-bottom:10px; }
 
