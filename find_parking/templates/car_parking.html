@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Parking - FINDPARKING</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            background-color: #00bcd4;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #e0f7fa;
+        }
+        .title-container {
+            text-align: left;
+        }
+        .main-title {
+            font-size: 3em;
+            font-weight: bold;
+            color: black;
+            margin: 0;
+        }
+        .sub-title {
+            font-size: 1.2em;
+            color: black;
+            margin: 5px 0 0 0;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 50px;
+            padding: 5px 15px;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .search-bar input {
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 0.9em;
+            color: #999;
+        }
+        .search-bar .icon {
+            color: #00bcd4;
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+        .edit-btn {
+            background-color: #4caf50;
+            margin-left: 10px;
+        }
+        .status-bar {
+            background-color: #b2ebf2;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .slot-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .slot {
+            background-color: #00bcd4;
+            border-radius: 50px;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .slot:hover {
+            background-color: #0097a7;
+        }
+        .slot.accepted {
+            background-color: #4caf50;
+        }
+        .slot.pending {
+            background-color: #cccccc;
+        }
+        .slot.accepted img {
+            float: left;
+            margin-right: 10px;
+        }
+        .slot-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .slot-plate {
+            font-weight: bold;
+        }
+        .use-btn {
+            padding: 5px 15px;
+            background-color: #cccccc;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #00bcd4;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- ✅ Header diperbaiki: hanya 1 dan berisi teks -->
+    <div class="header"></div>
+    <div class="header"></div>
+    
+    <div class="top-section">
+        <div class="title-container">
+            <h1 class="main-title">CAR PARKING</h1>
+            <h2 class="sub-title">FIND PARKING</h2>
+        </div>
+        <div class="search-bar">
+            <span class="icon">🔍</span>
+            <input type="text" id="search-input" placeholder="SEARCH SLOT PARKING" onkeyup="filterSlots()">
+        </div>
+        <div>
+            <button class="back-btn" onclick="location.href='/back_to_menu'">BACK TO MENU</button>
+            {% if is_manager %}
+                <a href="/edit_slot/car" class="back-btn edit-btn">EDIT</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="status-bar">
+        <div>SLOT PARKING : {{ total_slots }}</div>
+        <div>USED SLOT : {{ used_slots }}</div>
+        <div>EMPTY SLOT : {{ empty_slots }}</div>
+    </div>
+    <div class="slot-container">
+        {% for id, slot in slots.items() %}
+            {% if slot.status == 'accepted' %}
+                <!-- ✅ Slot terisi: ke halaman info (bukan use_slot!) -->
+                <div class="slot accepted" onclick="location.href='/slot_detail/car/{{ id }}'">
+                    <img src="{{ url_for('static', filename='mobil.png') }}" alt="Car" width="80">
+                    <div class="slot-name">SLOT {{ id }} USED</div>
+                    <div class="slot-plate">{{ slot.plate }}</div>
+                </div>
+            {% elif slot.status == 'pending' %}
+                <!-- Slot pending: tetap ke use_slot -->
+                <div class="slot pending" onclick="location.href='/use_slot/car/{{ id }}'">
+                    <div class="slot-name">SLOT {{ id }}</div>
+                    <div class="slot-plate">{{ slot.plate }}</div>
+                    <button class="use-btn">USE</button>
+                </div>
+            {% else %}
+                <!-- Slot kosong: pastikan ada .slot-plate (kosong) -->
+                <div class="slot" onclick="location.href='/use_slot/car/{{ id }}'">
+                    <div class="slot-name">SLOT {{ id }}</div>
+                    <div class="slot-plate"></div> <!-- ✅ Ini kunci agar JS tidak error -->
+                    {% if is_manager %}
+                        <button class="use-btn">ACCEPT</button>
+                    {% else %}
+                        <button class="use-btn">USE</button>
+                    {% endif %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="footer"></div>
+
+    <script>
+        function filterSlots() {
+            const input = document.getElementById('search-input');
+            const filter = input.value.toLowerCase();
+            const slots = document.querySelectorAll('.slot');
+
+            slots.forEach(slot => {
+                const nameElement = slot.querySelector('.slot-name');
+                const plateElement = slot.querySelector('.slot-plate');
+                
+                const name = nameElement ? nameElement.textContent.toLowerCase() : '';
+                const plate = plateElement ? plateElement.textContent.toLowerCase() : '';
+                
+                if (name.includes(filter) || plate.includes(filter)) {
+                    slot.style.display = 'block';
+                } else {
+                    slot.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

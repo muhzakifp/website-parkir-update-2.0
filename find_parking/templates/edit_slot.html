@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Slot - {{ vehicle_type | upper }} PARKING</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .header {
+            width: 100%;
+            background-color: #00bcd4;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-title {
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+        input[type="number"] {
+            width: 100px;
+            padding: 10px;
+            border: none;
+            border-radius: 50px;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .btn {
+            display: block;
+            width: 150px;
+            margin: 20px auto;
+            padding: 12px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .back-btn {
+            background-color: #0097a7;
+        }
+        .save-btn {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">{{ vehicle_type | upper }} PARKING</div>
+    <div class="container">
+        <h2 class="form-title">EDIT SLOT {{ vehicle_type | upper }}</h2>
+        <form method="POST">
+            <label for="slot_count">Jumlah Slot:</label><br>
+            <input type="number" name="slot_count" value="{{ total_slots }}" min="1" required><br>
+            <button type="submit" class="btn save-btn">SAVE</button>
+        </form>
+        <a href="{{ url_for('car_parking') if vehicle_type == 'car' else url_for('motorcycle_parking') }}" class="btn back-btn">BACK TO PARKING</a>
+    </div>
+</body>
+</html>

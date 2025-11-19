@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FINDPARKING</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #e3f2fd);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .header {
+            width: 100%;
+            background-color: #00bcd4;
+            color: white;
+            text-align: center;
+            padding: 20px 0; 
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+        }
+        .logo-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .logo-img {
+            width: 120px;
+            height: auto;
+        }
+        .title {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: black;
+        }
+        .subtitle {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: black;
+        }
+        .btn {
+            display: block;
+            width: 300px;
+            margin: 20px auto;
+            padding: 15px 0;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0097a7;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #00bcd4;
+            text-align: center;
+            padding: 1px 0;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 20px;
+        }
+        .parking-icon {
+            width: 80px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ✅ Header diisi -->
+    <div class="header"></div>
+    <div class="header"></div> 
+    
+    <div class="container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='mobil.png') }}" class="logo-img" alt="Mobil">
+            <img src="{{ url_for('static', filename='motor.png') }}" class="logo-img" alt="Motor">
+        </div>
+        <h1 class="title">FINDPARKING</h1>
+        <h2 class="subtitle">yahahaha hayyukk</h2> 
+        <a href="/login/driver" class="btn">DRIVER</a>
+        <a href="/login/manager" class="btn">PARKING ATTENDANT</a>
+    </div>
+    <div class="footer">
+        <img src="{{ url_for('static', filename='parkir.png') }}" alt="Parking Icon" class="parking-icon">
+    </div>
+</body>
+</html>

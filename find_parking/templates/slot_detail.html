@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>INFO</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: rgba(0,0,0,0.7); 
+            margin: 0; 
+            padding: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+        }
+        .popup { 
+            background: white; 
+            border: 2px solid black; 
+            border-radius: 10px; 
+            padding: 30px; 
+            text-align: center; 
+            max-width: 400px; 
+            width: 90%; 
+        }
+        .popup h1 { 
+            font-size: 2.5em; 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+        }
+        .info-list { 
+            text-align: left; 
+            font-size: 1.2em; 
+            line-height: 1.6; 
+            margin-bottom: 30px; 
+        }
+        .info-item { 
+            margin: 5px 0; 
+        }
+        .info-label { 
+            font-weight: bold; 
+        }
+        .exit-btn { 
+            width: 100%; 
+            padding: 15px; 
+            background: red; 
+            color: white; 
+            border: none; 
+            border-radius: 50px; 
+            font-size: 1.5em; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="popup">
+        <h1>INFO</h1>
+        <div class="info-list">
+            <div class="info-item"><span class="info-label">NAME :</span> {{ slot_data.user_name }}</div>
+            <div class="info-item"><span class="info-label">PLAT :</span> {{ slot_data.plate }}</div>
+            <div class="info-item"><span class="info-label">SLOT PARKIR :</span> {{ slot_id }}</div>
+            <div class="info-item"><span class="info-label">VEHICLE :</span> {{ vehicle_type | upper }}</div>
+            <div class="info-item"><span class="info-label">ID DRIVER :</span> {{ slot_data.driver_id }}</div>
+            <div class="info-item"><span class="info-label">ID ATTENDANT :</span> {{ slot_data.manager_id or 'N/A' }}</div>
+            
+            <!-- ✅ Tampilkan nomor HP hanya untuk manager -->
+            {% if is_manager and driver_phone %}
+                <div class="info-item"><span class="info-label">NO HP DRIVER :</span> {{ driver_phone }}</div>
+            {% endif %}
+        </div>
+        <a href="/parking/{{ vehicle_type }}" class="exit-btn">EXIT</a>
+    </div>
+</body>
+</html>
