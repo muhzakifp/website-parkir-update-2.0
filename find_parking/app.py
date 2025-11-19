@@ -6,24 +6,40 @@ app.secret_key = 'parking_secret_key_2025'
 # Data simulasi slot parkir
 parking_slots = {
     'car': {
-        '1': {'status': 'accepted', 'plate': 'AD 7654 MK', 'user_name': 'Mulyono', 'vehicle_type': 'car', 'manager_id': '3456', 'driver_id': '54324'},
-        '2': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '3': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '4': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '5': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '6': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '7': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '8': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''}
+        '1': {
+            'status': 'accepted',
+            'plate': 'R 7654 MK',
+            'user_name': 'Mulyono',
+            'vehicle_type': 'car',
+            'manager_id': '3456',
+            'driver_id': '54324',
+            'phone': '081234567890'
+        },
+        '2': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '3': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '4': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '5': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '6': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '7': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '8': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''}
     },
     'motorcycle': {
-        '1': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '2': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '3': {'status': 'accepted', 'plate': 'D 8769 W', 'user_name': 'Deddy Mulyadi', 'vehicle_type': 'motorcycle', 'manager_id': '4567', 'driver_id': '67890'},
-        '4': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '5': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '6': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '7': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''},
-        '8': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': ''}
+        '1': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '2': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '3': {
+            'status': 'accepted',
+            'plate': 'R 8769 W',
+            'user_name': 'Deddy Mulyadi',
+            'vehicle_type': 'motorcycle',
+            'manager_id': '4567',
+            'driver_id': '67890',
+            'phone': '089876543210'
+        },
+        '4': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '5': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '6': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '7': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''},
+        '8': {'status': 'empty', 'plate': '', 'user_name': '', 'vehicle_type': '', 'manager_id': '', 'driver_id': '', 'phone': ''}
     }
 }
 
@@ -151,7 +167,8 @@ def use_slot(vehicle_type, slot_id):
                 'plate': session['plate'],
                 'user_name': session['user_name'],
                 'vehicle_type': session['vehicle_type'],
-                'driver_id': session['driver_id']
+                'driver_id': session['driver_id'],
+                'phone': session.get('phone', '')  # ✅ Simpan nomor HP
             })
         elif slot['status'] == 'accepted':
             return redirect(url_for('slot_detail', vehicle_type=vehicle_type, slot_id=slot_id))
@@ -167,34 +184,15 @@ def slot_detail(vehicle_type, slot_id):
     if slot['status'] != 'accepted':
         return "Slot tidak valid.", 400
 
-    # Dapatkan nomor HP driver dari session semua driver (simulasi)
-    # Di proyek nyata, ini disimpan di database
-    driver_phone = ""
-    if session.get('is_manager'):
-        # Cari nomor HP berdasarkan driver_id
-        for v_type, slots in parking_slots.items():
-            for s_id, s_data in slots.items():
-                if s_data.get('driver_id') == slot.get('driver_id') and s_data.get('phone'):
-                    driver_phone = s_data.get('phone', '')
-                    break
-            if driver_phone:
-                break
+    # Ambil nomor HP (hanya untuk manager)
+    driver_phone = slot.get('phone', '') if session.get('is_manager') else ''
 
     return render_template('popup_info.html',
                            vehicle_type=vehicle_type,
                            slot_id=slot_id,
                            slot_data=slot,
                            is_manager=session.get('is_manager', False),
-                           driver_phone=driver_phone)  # ✅ kirim nomor HP
-
-@app.route('/back_to_menu')
-def back_to_menu():
-    return redirect(url_for('manager_menu') if session.get('is_manager') else url_for('driver_menu'))
-
-@app.route('/exit')
-def exit_app():
-    session.clear()
-    return redirect(url_for('index'))
+                           driver_phone=driver_phone)
 
 @app.route('/edit_slot/<vehicle_type>', methods=['GET', 'POST'])
 def edit_slot(vehicle_type):
@@ -208,12 +206,11 @@ def edit_slot(vehicle_type):
         try:
             new_count = int(request.form.get('slot_count', 8))
             if new_count < 1:
-                raise ValueError("Jumlah slot minimal 1")
-            
+                new_count = 8
             current_slots = parking_slots[vehicle_type]
             current_count = len(current_slots)
 
-            # Tambah slot baru
+            # Tambah slot
             for i in range(current_count + 1, new_count + 1):
                 current_slots[str(i)] = {
                     'status': 'empty',
@@ -221,7 +218,8 @@ def edit_slot(vehicle_type):
                     'user_name': '',
                     'vehicle_type': vehicle_type,
                     'manager_id': '',
-                    'driver_id': ''
+                    'driver_id': '',
+                    'phone': ''
                 }
             # Kurangi slot
             for i in range(new_count + 1, current_count + 1):
@@ -230,13 +228,21 @@ def edit_slot(vehicle_type):
 
             return redirect(url_for('car_parking') if vehicle_type == 'car' else url_for('motorcycle_parking'))
         except (ValueError, TypeError):
-            # Tetap tampilkan form dengan pesan error (opsional)
             pass
 
     total = len(parking_slots[vehicle_type])
     return render_template('edit_slot.html',
                            vehicle_type=vehicle_type,
                            total_slots=total)
+
+@app.route('/back_to_menu')
+def back_to_menu():
+    return redirect(url_for('manager_menu') if session.get('is_manager') else url_for('driver_menu'))
+
+@app.route('/exit')
+def exit_app():
+    session.clear()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

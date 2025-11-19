@@ -113,7 +113,7 @@
         }
         .slot.accepted img {
             float: left;
-            margin-right: 10px;
+            margin-right: -50px;
         }
         .slot-name {
             font-size: 1.4em;
@@ -138,7 +138,7 @@
             width: 100%;
             background-color: #00bcd4;
             text-align: center;
-            padding: 10px 0;
+            padding: 30px 0;
         }
     </style>
 </head>
@@ -173,7 +173,7 @@
             {% if slot.status == 'accepted' %}
                 <!-- ✅ Slot terisi: ke halaman info -->
                 <div class="slot accepted" onclick="location.href='/slot_detail/motorcycle/{{ id }}'">
-                    <img src="{{ url_for('static', filename='motor.png') }}" alt="Motorcycle" width="80">
+                    <img src="{{ url_for('static', filename='motor.png') }}" alt="Motorcycle" width="120">
                     <div class="slot-name">SLOT {{ id }} USED</div>
                     <div class="slot-plate">{{ slot.plate }}</div>
                 </div>
