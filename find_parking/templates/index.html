@@ -13,7 +13,7 @@
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        justify-content: flex-start; /* container mulai dari atas */
+        justify-content: flex-start;
         align-items: center;
     }
 
@@ -27,6 +27,32 @@
         font-weight: 700;
         letter-spacing: 1px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        position: relative; /* untuk positioning header-right */
+    }
+
+    .header-right {
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        display: flex;
+        gap: 12px;
+    }
+
+    .header-right a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 5px 12px; /* ukuran lebih kecil */
+        border-radius: 15px;
+        font-size: 0.9rem;
+        background-color: rgba(255,255,255,0.2);
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .header-right a:hover {
+        background-color: rgba(255,255,255,0.35);
+        transform: translateY(-2px);
     }
 
     .container {
@@ -37,7 +63,7 @@
         border-radius: 15px;
         box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         animation: fadeUp 1s ease-out;
-        margin-top: 80px; /* turunin container */
+        margin-top: 80px;
     }
 
     @keyframes fadeUp {
@@ -117,8 +143,12 @@
 </head>
 <body>
 
-    <div class="header"></div>
-    <div class="header"></div>
+    <div class="header">FINDPARKING
+        <div class="header-right">
+            <a href="#">Sign In</a>
+            <a href="#">Sign Up</a>
+        </div>
+    </div>
 
     <div class="container">
         <div class="logo-container">
@@ -126,13 +156,13 @@
             <img src="{{ url_for('static', filename='motor.png') }}" class="logo-img" alt="Motor">
         </div>
         <h1 class="title">FINDPARKING</h1>
-        <h2 class="subtitle">yahaha hayyuk</h2>
+        <h2 class="subtitle">MARKIR YUK</h2>
         <a href="/login/driver" class="btn">Driver</a>
         <a href="/login/manager" class="btn">Parking Attendant</a>
     </div>
 
     <div class="footer">
-        &copy; 2025 WEBSITE BY JAKI
+        &copy; 2025 MARKIR
         <img src="{{ url_for('static', filename='parkir.png') }}" alt="Parking Icon" class="parking-icon">
     </div>
 
