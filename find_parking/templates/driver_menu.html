@@ -25,6 +25,24 @@
         z-index:999;
     }
 
+    /* POPUP */
+    #popup {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #043d28;
+        color: white;
+        padding: 16px 22px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        opacity: 0;
+        transition: .4s ease-in-out;
+        pointer-events: none;
+        z-index: 2000;
+    }
+
     /* MAIN CONTAINER */
     .container {
         max-width: 900px;
@@ -71,11 +89,13 @@
         text-decoration:none; color:white; background:#00796b;
         box-shadow:0 4px 12px rgba(0,0,0,0.15);
         transition:0.3s;
+        cursor:pointer;
     }
 
     .btn:hover:not(.disabled) { background:#004d40; transform:translateY(-2px); }
-    .btn.disabled { background:#c8c8c8; cursor:not-allowed; pointer-events:none; }
+    .btn.disabled { background:#c8c8c8; cursor:not-allowed; }
     .btn.disabled .vehicle-img { filter:grayscale(100%); opacity:0.5; }
+
     .vehicle-img { width:100px; margin-right:20px; transition:0.3s; }
 
     /* FOOTER */
@@ -117,17 +137,23 @@
     </div>
 
     <div class="button-container">
-        <a href="/parking/car" class="btn {% if session.vehicle_type != 'car' %}disabled{% endif %}" onclick="return checkVehicle('car')">
+        <a href="/parking/car" 
+           class="btn {% if session.vehicle_type != 'car' %}disabled{% endif %}" 
+           onclick="return handleClick('car')">
             <img src="{{ url_for('static', filename='mobil.png') }}" class="vehicle-img">
             <span>CAR</span>
         </a>
 
-        <a href="/parking/motorcycle" class="btn {% if session.vehicle_type != 'motorcycle' %}disabled{% endif %}" onclick="return checkVehicle('motorcycle')">
+        <a href="/parking/motorcycle" 
+           class="btn {% if session.vehicle_type != 'motorcycle' %}disabled{% endif %}" 
+           onclick="return handleClick('motorcycle')">
             <img src="{{ url_for('static', filename='motor.png') }}" class="vehicle-img">
             <span>MOTORCYCLE</span>
         </a>
     </div>
 </div>
+
+<div id="popup"></div>
 
 <div class="footer">
     <div class="footer-left">
@@ -135,16 +161,27 @@
         <span class="footer-text">DRIVER</span>
     </div>
     <div class="footer-right">
-        <div class="plat-nomor">PLAT NOMOR: {{ plate }}</div>
+        <div class="plat-nomor">PLATE NUMBER: {{ plate }}</div>
         <a href="/exit" class="exit-btn">EXIT</a>
     </div>
 </div>
 
 <script>
-function checkVehicle(type){
-    const sessionType = "{{ session.vehicle_type }}";
-    if(type !== sessionType){
-        alert("Kendaraan yang dipilih tidak sesuai dengan saat login!");
+function handleClick(selected) {
+    const userType = "{{ session.vehicle_type }}";
+
+    if (selected !== userType) {
+        const popup = document.getElementById("popup");
+
+        popup.textContent = 
+            "You selected a different vehicle type. Please choose the correct one.";
+
+        popup.style.opacity = "1";
+
+        setTimeout(() => {
+            popup.style.opacity = "0";
+        }, 3000);
+
         return false;
     }
     return true;

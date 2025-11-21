@@ -14,7 +14,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
     padding-bottom: 80px;
 }
 
@@ -30,6 +29,10 @@ body {
     font-weight:bold;
     color:white;
     box-shadow:0 3px 10px rgba(0,0,0,0.15);
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:10;
 }
 
 /* CONTAINER */
@@ -37,7 +40,7 @@ body {
     width:100%;
     max-width:1000px;
     padding:20px;
-    margin-top:20px;
+    margin-top:100px;
 }
 
 /* TOP SECTION */
@@ -116,13 +119,33 @@ body {
     box-shadow:0 6px 15px rgba(0,0,0,0.15);
     transition:0.3s;
 }
-.btn:hover {
+.btn:hover:not(.disabled) {
     background:#004d40;
     transform:translateY(-3px);
 }
+
+/* NORMAL ICON SIZE */
 .btn img {
     width:150px;
     margin-right:20px;
+}
+
+/* Monitor icon adjustment */
+.kamera-img {
+    width:100px;
+    height:100px;
+    object-fit:contain;
+}
+
+/* Disabled State */
+.btn.disabled {
+    background:#a7a7a7 !important;
+    cursor:not-allowed !important;
+    pointer-events:auto !important;
+}
+.btn.disabled img {
+    filter:grayscale(100%);
+    opacity:0.4;
 }
 
 /* FOOTER */
@@ -167,12 +190,47 @@ body {
 .exit-btn:hover {
     background:darkred;
 }
+
+/* TOAST POPUP */
+.toast {
+    visibility: hidden;
+    min-width: 280px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    padding: 15px 20px;
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.1em;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease;
+}
+
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(-12px);
+}
 </style>
+
+<script>
+function showMessage() {
+    let toast = document.getElementById("toast");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 2500);
+}
+</script>
 </head>
 <body>
 
 <div class="header"></div>
-
 
 <div class="container">
     <div class="top-section">
@@ -192,13 +250,19 @@ body {
 
     <div class="button-container">
         <a href="/parking/car" class="btn">
-            <img src="{{ url_for('static', filename='mobil.png') }}" alt="Car">
+            <img src="{{ url_for('static', filename='mobil.png') }}">
             <span>CAR</span>
         </a>
 
         <a href="/parking/motorcycle" class="btn">
-            <img src="{{ url_for('static', filename='motor.png') }}" alt="Motorcycle">
+            <img src="{{ url_for('static', filename='motor.png') }}">
             <span>MOTORCYCLE</span>
+        </a>
+
+        <!-- NEW DISABLED FEATURE -->
+        <a class="btn disabled" onclick="showMessage()">
+            <img src="{{ url_for('static', filename='kamera.png') }}" class="kamera-img">
+            <span>PARKING MONITOR</span>
         </a>
     </div>
 </div>
@@ -211,6 +275,9 @@ body {
 
     <a href="/exit" class="exit-btn">EXIT</a>
 </div>
+
+<!-- Toast Notification -->
+<div id="toast" class="toast">The monitor feature is under development !!!</div>
 
 </body>
 </html>
